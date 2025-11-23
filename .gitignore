@@ -1,0 +1,28 @@
+terraform
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Crash log files
+crash.log
+*.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terragrunt-cache/
+.terraformrc
+.terraform.d/
+.terragrunt.hcl
+.terragrunt-debug.log
+# Local environment variables file
+.envrc
+# Sensitive variable files
+*.auto.tfvars
+*.auto.tfvars.json
+
+#key
+
+ashu
+ashu.pub
