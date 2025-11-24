@@ -13,7 +13,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/auto_assign.yml
-          reviewers: 'reviewer1'   # Replace with GitHub usernames
+          reviewers: 'ashubambal'   # Replace with GitHub usernames
           number-of-reviewers: 1                        # Number of reviewers per PR
           addReviewers: true
           addAssignees: false
