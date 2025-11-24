@@ -1,0 +1,17 @@
+name: Auto Assign Reviewer
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  assign-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign reviewer
+        uses: kentaro-m/auto-assign-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: 'ashubambal'   # Replace with GitHub usernames
+          number-of-reviewers: 1                        # Number of reviewers per PR
+          skip-when-review-requested: false            # Always assign
