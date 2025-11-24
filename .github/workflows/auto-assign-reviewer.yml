@@ -1,4 +1,7 @@
-name: Auto Assign Reviewer & Assignee
+##############################
+#  FILE 1: .github/workflows/auto-assign.yml
+##############################
+name: Auto Assign Reviewer and Assignee
 
 on:
   pull_request_target:
@@ -12,9 +15,23 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/auto-assign-reviewer@v2
+      - uses: kentaro-m/auto-assign-action@v2
         with:
-          reviewers: "ashubambal"
-          assignees: "ashubambal"
-          max-num-of-reviewers: 1
-          max-num-of-assignees: 1
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/auto_assign.yml
+
+
+##############################
+#  FILE 2: .github/auto_assign.yml
+##############################
+addReviewers: true
+addAssignees: true
+
+reviewers:
+  - "ashubambal"
+
+assignees:
+  - "ashubambal"
+
+numberOfReviewers: 1
+numberOfAssignees: 1
