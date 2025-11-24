@@ -3,7 +3,7 @@ resource "aws_instance" "ec2-instance" {
   instance_type          = "t3.micro"
   key_name               = aws_key_pair.deployer-key.key_name
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
- 
+
   network_interface {
     network_interface_id = aws_network_interface.ec2_eni.id
     device_index         = 0
@@ -77,8 +77,8 @@ resource "aws_route_table" "service-provider-public-rt" {
 
 
 resource "aws_subnet" "service-provider-public-subnet-1a" {
-  vpc_id                  = aws_vpc.service-provider-vpc.id
-  cidr_block              = "11.0.1.0/24"
+  vpc_id     = aws_vpc.service-provider-vpc.id
+  cidr_block = "11.0.1.0/24"
 
   tags = {
     Name  = "service-provider-public-subnet"
@@ -107,9 +107,9 @@ resource "aws_network_interface" "ec2_eni" {
 
 
 resource "aws_eip" "ec2_eip" {
-  vpc                      = true
-  network_interface        = aws_network_interface.ec2_eni.id
-  depends_on               = [aws_internet_gateway.service-provider-igw]
+  vpc               = true
+  network_interface = aws_network_interface.ec2_eni.id
+  depends_on        = [aws_internet_gateway.service-provider-igw]
 
   tags = {
     Name  = "ec2-eip"
