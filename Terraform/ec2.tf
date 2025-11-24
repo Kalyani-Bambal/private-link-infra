@@ -15,7 +15,7 @@ resource "aws_instance" "ec2-instance" {
 
 resource "aws_key_pair" "deployer-key" {
   key_name   = "private-link-infra-key"
-  public_key = file("/home/ashu/Kalyani/Git/private-link-infra/Terraform/ashu.pub")
+  public_key = var.public_key
 }
 
 #create security group
