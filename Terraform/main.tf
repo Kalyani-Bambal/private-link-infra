@@ -1,8 +1,8 @@
 resource "aws_instance" "ec2-instance" {
-  ami                    = "ami-0a71e3eb8b23101ed"
-  instance_type          = "t3.micro"
-  key_name               = aws_key_pair.deployer-key.key_name
-  
+  ami           = "ami-0a71e3eb8b23101ed"
+  instance_type = "t3.micro"
+  key_name      = aws_key_pair.deployer-key.key_name
+
 
   network_interface {
     network_interface_id = aws_network_interface.ec2_eni.id
