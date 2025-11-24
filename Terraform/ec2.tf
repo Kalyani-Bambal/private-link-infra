@@ -5,7 +5,7 @@ resource "aws_instance" "ec2-instance" {
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
   tags = {
-    Name = "Infrastructure"
+    Name  = "Infrastructure"
     Owner = "DevOps-Team"
     Email = "devops@nice.com"
   }
@@ -62,9 +62,9 @@ resource "aws_security_group" "ec2_sg" {
 
 
   tags = {
-    Name = "Infrastructure"
+    Name  = "Infrastructure"
     Owner = "DevOps-Team"
     Email = "devops@nice.com"
-  } 
+  }
 }
 
