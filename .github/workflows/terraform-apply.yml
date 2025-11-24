@@ -1,20 +1,15 @@
 name: Terraform Apply
 
 on:
-  workflow_dispatch:     # Manual trigger button
   push:
     branches:
-      - main             # Automatically create a plan on push
-jobs:
+      - main
 
+jobs:
   terraform-apply:
     runs-on: ubuntu-latest
 
-    # Only run apply when user triggers it manually
-    if: github.event_name == 'workflow_dispatch'
-
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
