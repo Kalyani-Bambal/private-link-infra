@@ -9,7 +9,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./terraform   # 👈 REPO MUST HAVE THIS FOLDER
+        working-directory: ./Terraform   # 👈 REPO MUST HAVE THIS FOLDER
 
     steps:
       - name: Checkout code
