@@ -1,15 +1,19 @@
 name: Terraform Apply
 
 on:
-  workflow_dispatch:   # manual trigger
+  workflow_dispatch:            # Manual trigger
+  push:
+    branches:
+      - main                    # Auto trigger when PR is merged to main
 
 jobs:
   terraform-apply:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
 
     defaults:
       run:
-        working-directory: ./Terraform   # 👈 REPO MUST HAVE THIS FOLDER
+        working-directory: ./Terraform   # Your Terraform directory
 
     steps:
       - name: Checkout code
@@ -28,7 +32,12 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        env:
+          TF_VAR_public_key: ${{ secrets.PUBLIC_KEY }}
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         env:
           TF_VAR_public_key: ${{ secrets.PUBLIC_KEY }}
