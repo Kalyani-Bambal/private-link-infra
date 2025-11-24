@@ -2,7 +2,7 @@ resource "aws_instance" "ec2-instance" {
   ami                    = "ami-0a71e3eb8b23101ed"
   instance_type          = "t3.micro"
   key_name               = aws_key_pair.deployer-key.key_name
-  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  
 
   network_interface {
     network_interface_id = aws_network_interface.ec2_eni.id
@@ -78,7 +78,7 @@ resource "aws_route_table" "service-provider-public-rt" {
 
 resource "aws_subnet" "service-provider-public-subnet-1a" {
   vpc_id     = aws_vpc.service-provider-vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "11.0.1.0/24"
 
   tags = {
     Name  = "service-provider-public-subnet"
