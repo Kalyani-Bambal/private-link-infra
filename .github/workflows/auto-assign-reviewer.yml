@@ -1,26 +1,30 @@
-name: Auto Assign & Reviewers
+name: Auto Assign Reviewers & Assignees
 
 on:
   pull_request:
     types: [opened, ready_for_review]
 
 jobs:
-  assign:
+  auto-assign:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Add reviewers & assignees
+      - name: Add Reviewers & Assignees
         uses: hkusu/review-assign-action@v1.4.0
         with:
           add-reviewers: true
           add-assignees: true
+
           reviewers: |
+            Kalyani-Bambal
             ashubambal
-            teamlead
+            raj123
+
           assignees: |
-            ashubambal
-          max-num-of-reviewers: 2
+            Kalyani-Bambal
+
+          max-num-of-reviewers: 1
           max-num-of-assignees: 1
