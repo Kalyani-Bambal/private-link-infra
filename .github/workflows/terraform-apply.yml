@@ -9,6 +9,7 @@ on:
 jobs:
   terraform-apply:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
 
     defaults:
       run:
