@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./terraform   # Make sure your .tf files are inside /terraform
+        working-directory: ./Terraform   # Make sure your .tf files are inside /terraform
 
     steps:
       - name: Checkout code
