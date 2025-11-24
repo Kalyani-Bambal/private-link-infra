@@ -9,15 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Add Reviewers & Assignees
+      - name: Add reviewers & assignees
         uses: hkusu/review-assign-action@v1.4.0
         with:
           add-reviewers: true
           add-assignees: true
-          reviewers: "ashubambal"
-          assignees: "ashubambal"
-          max-num-of-reviewers: 1
+          reviewers: |
+            ashubambal
+            teamlead
+          assignees: |
+            ashubambal
+          max-num-of-reviewers: 2
           max-num-of-assignees: 1
