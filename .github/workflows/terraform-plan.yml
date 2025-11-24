@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./terraform
+        working-directory: ./terraform   # Make sure your .tf files are inside /terraform
 
     steps:
       - name: Checkout code
@@ -38,4 +38,8 @@ jobs:
         env:
           TF_VAR_example_variable: ${{ secrets.PUBLIC_KEY }}
 
-      
+      - name: Upload Terraform Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: terraform/plan.out    # FULL path required!
