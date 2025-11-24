@@ -1,38 +1,23 @@
-##############################
-#  FILE 1: .github/workflows/auto-assign.yml
-##############################
-name: Auto Assign Reviewer and Assignee
+name: Auto Assign & Reviewers
 
 on:
-  pull_request_target:
-    types: [opened, reopened]
-
-permissions:
-  pull-requests: write
-  contents: read
+  pull_request:
+    types: [opened, ready_for_review]
 
 jobs:
   assign:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Auto Assign Reviewers + Assignees
-      - uses: kentaro-m/auto-assign-action@v1.2.0
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Add Reviewers & Assignees
+        uses: hkusu/review-assign-action@v1.4.0
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          configuration-path: .github/auto_assign.yml
-
-
-##############################
-#  FILE 2: .github/auto_assign.yml
-##############################
-addReviewers: true
-addAssignees: true
-
-reviewers:
-  - "ashubambal"
-
-assignees:
-  - "ashubambal"
-
-max-num-of-reviewers: 1
-max-num-of-assignees: 1
+          add-reviewers: true
+          add-assignees: true
+          reviewers: "ashubambal"
+          assignees: "ashubambal"
+          max-num-of-reviewers: 1
+          max-num-of-assignees: 1
