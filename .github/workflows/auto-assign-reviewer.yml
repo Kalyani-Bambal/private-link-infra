@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assign reviewer
-        uses: kentaro-m/auto-assign-action@v2
+        uses:  kentaro-m/auto-assign-action@v2.0.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: 'ashubambal'   # Replace with GitHub usernames
+          configuration-path: .github/auto_assign.yml
+          reviewers: 'reviewer1'   # Replace with GitHub usernames
           number-of-reviewers: 1                        # Number of reviewers per PR
-          skip-when-review-requested: false            # Always assign
+          addReviewers: true
+          addAssignees: false
