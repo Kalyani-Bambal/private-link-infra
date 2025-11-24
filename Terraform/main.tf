@@ -107,7 +107,6 @@ resource "aws_network_interface" "ec2_eni" {
 
 
 resource "aws_eip" "ec2_eip" {
-  vpc               = true
   network_interface = aws_network_interface.ec2_eni.id
   depends_on        = [aws_internet_gateway.service-provider-igw]
 
