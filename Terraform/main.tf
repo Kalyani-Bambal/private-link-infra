@@ -4,10 +4,10 @@ resource "aws_instance" "ec2-instance" {
   key_name               = aws_key_pair.deployer-key.key_name
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
-  network_interface {
-    network_interface_id = aws_network_interface.ec2_eni.id
-    device_index         = 0
-  }
+  # network_interface {
+  #   network_interface_id = aws_network_interface.ec2_eni.id
+  #   device_index         = 0
+  # }
 
   tags = {
     Name  = "Infrastructure"
