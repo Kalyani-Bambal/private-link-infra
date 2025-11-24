@@ -15,7 +15,8 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - uses: kentaro-m/auto-assign-action@v2
+      - name: Auto Assign Reviewers + Assignees
+      - uses: kentaro-m/auto-assign-action@v1.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/auto_assign.yml
@@ -33,5 +34,5 @@ reviewers:
 assignees:
   - "ashubambal"
 
-numberOfReviewers: 1
-numberOfAssignees: 1
+max-num-of-reviewers: 1
+max-num-of-assignees: 1
