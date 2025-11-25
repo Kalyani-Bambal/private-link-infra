@@ -87,9 +87,9 @@ resource "aws_subnet" "sservice-provider-private-subnet-1a" {
 #create private route table
 
 resource "aws_route_table" "service-provider-private-rt" {
-  vpc_id = aws_vpc.service-provider-vpc.id  
+  vpc_id = aws_vpc.service-provider-vpc.id
 
-  route{
+  route {
     cidr_block = "10.0.0.0/0"
     gateway_id = aws_internet_gateway.service-provider-igw.id
   }
@@ -97,7 +97,7 @@ resource "aws_route_table" "service-provider-private-rt" {
   tags = merge(local.common_tags, {
     Name = local.private_rt_name
   })
-} 
+}
 
 #associate route tables with subnets
 
