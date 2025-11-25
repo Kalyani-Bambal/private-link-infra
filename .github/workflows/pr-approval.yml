@@ -1,0 +1,39 @@
+name: PR Approval Validation
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  check-approval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Get Approval Count
+        id: approvals
+        run: |
+          PR=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+
+          COUNT=$(gh api repos/$REPO/pulls/$PR/reviews --jq '.[] | select(.state=="APPROVED")' | wc -l)
+          echo "count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Fail if not approved
+        if: steps.approvals.outputs.count == '0'
+        run: |
+          echo "❌ PR is NOT approved. At least one approval is required."
+          exit 1
+
+      - name: Success
+        if: steps.approvals.outputs.count != '0'
+        run: |
+          echo "✅ PR is approved. Job successful!"
