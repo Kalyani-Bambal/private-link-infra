@@ -10,6 +10,8 @@ resource "aws_instance" "ec2-instance" {
   }
 
   tags = var.tags
+
+  user_data = file("./script.sh")
 }
 
 #create Key
