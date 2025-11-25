@@ -38,7 +38,7 @@ variable "internet_gateway_enabled" {
   default     = true
 }
 
-varibale "route_table_public_enabled" {
+variable "route_table_public_enabled" {
   description = "Enable Public Route Table for the VPC"
   type        = bool
   default     = true
