@@ -4,9 +4,9 @@ resource "aws_instance" "ec2-instance" {
   key_name      = aws_key_pair.deployer-key.key_name
 
 
-  primary_network_interface {
-    network_interface_id = aws_network_interface.ec2_eni.id
-  }
+  # primary_network_interface {
+  #   network_interface_id = aws_network_interface.ec2_eni.id
+  # }
 
   tags = merge(local.common_tags, {
     Name = var.base_name
@@ -135,8 +135,8 @@ resource "aws_network_interface" "ec2_eni" {
 #create elastic ip
 
 resource "aws_eip" "ec2_eip" {
-  network_interface = aws_network_interface.ec2_eni.id
-  depends_on        = [aws_internet_gateway.service-provider-igw]
+  # network_interface = aws_network_interface.ec2_eni.id
+  # depends_on        = [aws_internet_gateway.service-provider-igw]
 
   tags = merge(local.common_tags, {
     Name = local.eip_name
