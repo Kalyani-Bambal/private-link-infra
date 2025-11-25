@@ -15,3 +15,19 @@ variable "vpc_cidr" {
   type        = string
   default     = "11.0.0.0/16"
 }
+
+variable "ami_id" {
+  description = "AMI ID for the EC2 instance"
+  type        = string
+  default     = "ami-0a71e3eb8b23101ed"
+}
+
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
+  default = {
+    Name  = "Infrastructure"
+    Owner = "DevOps-Team"
+    Email = "devops@nice.com"
+  }
+}
