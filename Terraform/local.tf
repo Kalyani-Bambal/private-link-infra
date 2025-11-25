@@ -10,4 +10,5 @@ locals {
   eni_name            = "${var.base_name}-eni"
   sg_name             = "${var.base_name}-sg"
   ec2_name            = "${var.base_name}-ec2"
+  nat_gateway_name    = "${var.base_name}-nat-gateway"
 }

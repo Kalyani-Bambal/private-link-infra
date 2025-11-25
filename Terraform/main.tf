@@ -90,7 +90,7 @@ resource "aws_route_table" "service-provider-private-rt" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.service-provider-igw.id
+    gateway_id = aws_nat_gateway.service-provider-nat-gateway.id
   }
 
   tags = merge(local.common_tags, {
@@ -109,6 +109,15 @@ resource "aws_route_table_association" "public-rt-association-1a" {
 resource "aws_route_table_association" "private-rt-association-1a" {
   subnet_id      = aws_subnet.sservice-provider-private-subnet-1a.id
   route_table_id = aws_route_table.service-provider-private-rt.id
+}
+
+resource "aws_nat_gateway" "service-provider-nat-gateway" {
+  allocation_id = aws_eip.ec2_eip.id
+  subnet_id     = aws_subnet.service-provider-public-subnet-1a.id
+
+  tags = merge(local.common_tags, {
+    Name = "${var.base_name}-nat-gateway"
+  })
 }
 
 #create network interface
