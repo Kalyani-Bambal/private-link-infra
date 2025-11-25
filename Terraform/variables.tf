@@ -19,17 +19,22 @@ variable "vpc_cidr" {
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type        = string
-  default     = "ami-0a71e3eb8b23101ed"
+  default     = "ami-04fcc2023d6e37430"
 }
 
 variable "tags" {
-  description = "Tags to apply to resources"
+  description = " Common Tags to apply  for all resources"
   type        = map(string)
   default = {
-    Name  = "Infrastructure"
     Owner = "DevOps-Team"
-    Email = "devops@nice.com"
+    Email = "DevOps@softconsist.com"
   }
+}
+
+variable "base_name" {
+  description = "Base path for the module"
+  type        = string
+  default     = "service-provider"
 }
 
 variable "internet_gateway_enabled" {
