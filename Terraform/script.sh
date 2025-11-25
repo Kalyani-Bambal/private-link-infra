@@ -24,3 +24,5 @@ sudo systemctl restart nginx
 echo "<h1>NGINX is running on Ubuntu</h1>" | sudo tee /var/www/html/index.html > /dev/null
 
 echo "NGINX installation and configuration completed successfully."
+
+#ok
