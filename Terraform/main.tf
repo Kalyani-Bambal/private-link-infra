@@ -4,9 +4,9 @@ resource "aws_instance" "ec2-instance" {
   key_name      = aws_key_pair.deployer-key.key_name
 
 
-  # primary_network_interface {
-  #   network_interface_id = aws_network_interface.ec2_eni.id
-  # }
+  primary_network_interface {
+    network_interface_id = aws_network_interface.ec2_eni.id
+  }
 
   tags = merge(local.common_tags, {
     Name = var.base_name
@@ -111,8 +111,13 @@ resource "aws_route_table_association" "private-rt-association-1a" {
   route_table_id = aws_route_table.service-provider-private-rt.id
 }
 
+
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+}
+
 resource "aws_nat_gateway" "service-provider-nat-gateway" {
-  allocation_id = aws_eip.ec2_eip.id
+  allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.service-provider-public-subnet-1a.id
 
   tags = merge(local.common_tags, {
@@ -135,8 +140,8 @@ resource "aws_network_interface" "ec2_eni" {
 #create elastic ip
 
 resource "aws_eip" "ec2_eip" {
-  # network_interface = aws_network_interface.ec2_eni.id
-  # depends_on        = [aws_internet_gateway.service-provider-igw]
+  network_interface = aws_network_interface.ec2_eni.id
+  depends_on        = [aws_internet_gateway.service-provider-igw]
 
   tags = merge(local.common_tags, {
     Name = local.eip_name
