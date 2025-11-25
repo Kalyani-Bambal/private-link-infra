@@ -64,11 +64,7 @@ resource "aws_subnet" "service-provider-public-subnet-1a" {
   vpc_id     = aws_vpc.service-provider-vpc.id
   cidr_block = "11.0.1.0/24"
 
-  tags = {
-    Name  = "service-provider-public-subnet"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 resource "aws_route_table_association" "public-rt-association-1a" {
@@ -82,11 +78,7 @@ resource "aws_network_interface" "ec2_eni" {
   private_ips     = ["11.0.1.10"]
   security_groups = [aws_security_group.ec2_sg.id]
 
-  tags = {
-    Name  = "ec2-eni"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 
@@ -94,11 +86,7 @@ resource "aws_eip" "ec2_eip" {
   network_interface = aws_network_interface.ec2_eni.id
   depends_on        = [aws_internet_gateway.service-provider-igw]
 
-  tags = {
-    Name  = "ec2-eip"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 
@@ -139,10 +127,6 @@ resource "aws_security_group" "ec2_sg" {
   }
 
 
-  tags = {
-    Name  = "Infrastructure"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 

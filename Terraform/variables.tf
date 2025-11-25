@@ -43,3 +43,27 @@ variable "route_table_public_enabled" {
   type        = bool
   default     = true
 }
+
+variable "subnet_cidr_public" {
+  description = "CIDR block for the public subnet"
+  type        = string
+  default     = "11.0.1.0/24"
+}
+
+variable "network_interface_device_index" {
+  description = "Device index for the network interface"
+  type        = number
+  default     = 0
+}
+
+variable "eip_associate" {
+  description = "Associate Elastic IP with the instance"
+  type        = bool
+  default     = false
+}
+
+variable "security_group_ids" {
+  description = "List of security group IDs to associate with the instance"
+  type        = list(string)
+  default     = []
+}
