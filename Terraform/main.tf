@@ -4,12 +4,13 @@ resource "aws_instance" "ec2-instance" {
   key_name      = aws_key_pair.deployer-key.key_name
 
 
-  network_interface {
+  primary_network_interface {
     network_interface_id = aws_network_interface.ec2_eni.id
-    device_index         = 0
   }
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = var.base_name
+  })
 
   user_data = file("${path.module}/script.sh")
 
@@ -22,19 +23,39 @@ resource "aws_key_pair" "deployer-key" {
   public_key = var.public_key
 }
 
-#create security group
+#create vpc
 
 resource "aws_vpc" "service-provider-vpc" {
   cidr_block = "11.0.0.0/16"
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.vpc_name
+  })
 }
+
+
+#create internet gateway
 
 resource "aws_internet_gateway" "service-provider-igw" {
   vpc_id = aws_vpc.service-provider-vpc.id
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.igw_name
+  })
 }
+
+#create public subnet
+
+resource "aws_subnet" "service-provider-public-subnet-1a" {
+  vpc_id     = aws_vpc.service-provider-vpc.id
+  cidr_block = "11.0.1.0/24"
+
+  tags = merge(local.common_tags, {
+    Name = local.public_subnet_name
+  })
+}
+
+#create public route table
 
 resource "aws_route_table" "service-provider-public-rt" {
   vpc_id = aws_vpc.service-provider-vpc.id
@@ -44,31 +65,40 @@ resource "aws_route_table" "service-provider-public-rt" {
     gateway_id = aws_internet_gateway.service-provider-igw.id
   }
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.public_rt_name
+  })
 }
 
-# resource "aws_route_table" "service-provider-private-rt" {
-#   vpc_id = aws_vpc.service-provider-vpc.id  
 
-#   route{
-#     cidr_block = "10.0.0.0/0"
-#     gateway_id = aws_internet_gateway.service-provider-igw.id
-#   }
+#create private subnet
 
-#   tags = {
-#     Name  = "service-provider-private-rt"
-#     Owner = "DevOps-Team"
-#     Email = "devops@nice.com"
-#   }
-# } 
-
-
-resource "aws_subnet" "service-provider-public-subnet-1a" {
+resource "aws_subnet" "sservice-provider-private-subnet-1a" {
   vpc_id     = aws_vpc.service-provider-vpc.id
-  cidr_block = "11.0.1.0/24"
+  cidr_block = "11.0.3.0/24"
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.private_subnet_name
+  })
 }
+
+
+#create private route table
+
+resource "aws_route_table" "service-provider-private-rt" {
+  vpc_id = aws_vpc.service-provider-vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.service-provider-igw.id
+  }
+
+  tags = merge(local.common_tags, {
+    Name = local.private_rt_name
+  })
+}
+
+#associate route tables with subnets
 
 resource "aws_route_table_association" "public-rt-association-1a" {
   subnet_id      = aws_subnet.service-provider-public-subnet-1a.id
@@ -76,22 +106,36 @@ resource "aws_route_table_association" "public-rt-association-1a" {
 }
 
 
+resource "aws_route_table_association" "private-rt-association-1a" {
+  subnet_id      = aws_subnet.sservice-provider-private-subnet-1a.id
+  route_table_id = aws_route_table.service-provider-private-rt.id
+}
+
+#create network interface
+
 resource "aws_network_interface" "ec2_eni" {
   subnet_id       = aws_subnet.service-provider-public-subnet-1a.id
   private_ips     = ["11.0.1.10"]
   security_groups = [aws_security_group.ec2_sg.id]
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.eni_name
+  })
 }
 
+#create elastic ip
 
 resource "aws_eip" "ec2_eip" {
   network_interface = aws_network_interface.ec2_eni.id
   depends_on        = [aws_internet_gateway.service-provider-igw]
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.eip_name
+  })
 }
 
+
+#create security group
 
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-sg"
@@ -130,6 +174,8 @@ resource "aws_security_group" "ec2_sg" {
   }
 
 
-  tags = var.tags
+  tags = merge(local.common_tags, {
+    Name = local.sg_name
+  })
 }
 
