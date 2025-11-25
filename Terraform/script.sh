@@ -13,3 +13,4 @@ systemctl enable nginx
 
 # Create a default webpage
 echo "<h1>NGINX is running on Ubuntu (Installed via Terraform)</h1>" > /var/www/html/index.html
+
