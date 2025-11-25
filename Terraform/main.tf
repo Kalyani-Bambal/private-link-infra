@@ -4,9 +4,8 @@ resource "aws_instance" "ec2-instance" {
   key_name      = aws_key_pair.deployer-key.key_name
 
 
-  network_interface {
-    network_interface_id = aws_network_interface.ec2_eni.id
-    device_index         = 0
+  primary_network_interface {
+    network_interface_id = aws_network_interface_attachment.ec2_eni.id
   }
 
   tags = merge(local.common_tags, {
