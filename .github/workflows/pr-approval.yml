@@ -14,6 +14,10 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
 
+      - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
       - name: Get Approval Count
         id: approvals
         run: |
@@ -26,10 +30,10 @@ jobs:
       - name: Fail if not approved
         if: steps.approvals.outputs.count == '0'
         run: |
-          echo "❌ Pull request is NOT approved yet."
+          echo "❌ PR is NOT approved. At least one approval is required."
           exit 1
 
       - name: Success
         if: steps.approvals.outputs.count != '0'
         run: |
-          echo "✅ Pull request is approved. Passing the job!"
+          echo "✅ PR is approved. Job successful!"
