@@ -1,5 +1,5 @@
 resource "aws_instance" "ec2-instance" {
-  ami           = "ami-0a71e3eb8b23101ed"
+  ami           = "ami-04fcc2023d6e37430"
   instance_type = "t3.micro"
   key_name      = aws_key_pair.deployer-key.key_name
 
@@ -131,4 +131,3 @@ resource "aws_security_group" "ec2_sg" {
 
   tags = var.tags
 }
-
