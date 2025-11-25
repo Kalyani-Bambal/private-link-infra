@@ -5,7 +5,7 @@ resource "aws_instance" "ec2-instance" {
 
 
   primary_network_interface {
-    network_interface_id = aws_network_interface_attachment.ec2_eni.id
+    network_interface_id = aws_network_interface.ec2_eni.id
   }
 
   tags = merge(local.common_tags, {
