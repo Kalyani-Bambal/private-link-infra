@@ -1,37 +1,46 @@
-name: PR Approval Validation
+name: PR Approval Check
 
 on:
-  pull_request_target:
-    types: [opened, reopened, synchronize, edited]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+      - review_requested
+      - review_request_removed
+      - ready_for_review
+      - converted_to_draft
+      - unlocked
+      - auto_merge_enabled
+      - auto_merge_disabled
   pull_request_review:
-    types: [submitted]
+    types:
+      - submitted
 
 jobs:
   check-approval:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Install GitHub CLI
-        run: sudo apt-get install -y gh
+      - name: Check PR Review Status
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
 
-      - name: Get Approval Count
-        id: approvals
-        run: |
-          PR=${{ github.event.pull_request.number }}
-          REPO=${{ github.repository }}
+            // Fetch all reviews of the PR
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
 
-          COUNT=$(gh api repos/$REPO/pulls/$PR/reviews --jq '.[] | select(.state=="APPROVED")' | wc -l)
-          echo "count=$COUNT" >> $GITHUB_OUTPUT
+            // Find approvals
+            const approvedReviews = reviews.data.filter(r => r.state === "APPROVED");
 
-      - name: Fail if not approved
-        if: steps.approvals.outputs.count == '0'
-        run: |
-          echo "❌ Pull request is NOT approved yet."
-          exit 1
-
-      - name: Success
-        if: steps.approvals.outputs.count != '0'
-        run: |
-          echo "✅ Pull request is approved. Passing the job!"
-
-          #ok
+            if (approvedReviews.length === 0) {
+              core.setFailed("❌ PR is NOT approved. At least one approval is required.");
+            } else {
+              console.log("✔ Approved by:", approvedReviews.map(r => r.user.login));
+            }
