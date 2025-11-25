@@ -1,5 +1,5 @@
 resource "aws_instance" "ec2-instance" {
-  ami           = "ami-0ad90ede5f7a6f599"
+  ami           = "ami-04fcc2023d6e37430"
   instance_type = "t3.micro"
   key_name      = aws_key_pair.deployer-key.key_name
 
@@ -12,7 +12,7 @@ resource "aws_instance" "ec2-instance" {
   tags = var.tags
 
   user_data = file("${path.module}/script.sh")
-  
+
 }
 
 #create Key
