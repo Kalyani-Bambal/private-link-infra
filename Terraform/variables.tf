@@ -4,3 +4,14 @@ variable "public_key" {
   sensitive   = true
 }
 
+varibale "instance_type" {
+  description = "Type of EC2 instance"
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  type        = string
+  default     = "11.0.0.0/16"
+}
