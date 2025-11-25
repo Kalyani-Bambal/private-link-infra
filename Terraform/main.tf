@@ -11,7 +11,7 @@ resource "aws_instance" "ec2-instance" {
 
   tags = var.tags
 
-  user_data = file("./script.sh")
+  user_data = file("${path.module}/script.sh")
 }
 
 #create Key
