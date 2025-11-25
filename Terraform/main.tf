@@ -9,11 +9,7 @@ resource "aws_instance" "ec2-instance" {
     device_index         = 0
   }
 
-  tags = {
-    Name  = "Infrastructure"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 #create Key
@@ -28,21 +24,13 @@ resource "aws_key_pair" "deployer-key" {
 resource "aws_vpc" "service-provider-vpc" {
   cidr_block = "11.0.0.0/16"
 
-  tags = {
-    Name  = "service-provider-vpc"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 resource "aws_internet_gateway" "service-provider-igw" {
   vpc_id = aws_vpc.service-provider-vpc.id
 
-  tags = {
-    Name  = "service-provider-igw"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 resource "aws_route_table" "service-provider-public-rt" {
@@ -53,11 +41,7 @@ resource "aws_route_table" "service-provider-public-rt" {
     gateway_id = aws_internet_gateway.service-provider-igw.id
   }
 
-  tags = {
-    Name  = "service-provider-public-rt"
-    Owner = "DevOps-Team"
-    Email = "devops@nice.com"
-  }
+  tags = var.tags
 }
 
 # resource "aws_route_table" "service-provider-private-rt" {

@@ -31,3 +31,15 @@ variable "tags" {
     Email = "devops@nice.com"
   }
 }
+
+variable "internet_gateway_enabled" {
+  description = "Enable Internet Gateway for the VPC"
+  type        = bool
+  default     = true
+}
+
+varibale "route_table_public_enabled" {
+  description = "Enable Public Route Table for the VPC"
+  type        = bool
+  default     = true
+}
