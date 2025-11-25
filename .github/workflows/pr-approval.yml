@@ -1,4 +1,4 @@
-name: PR Approval Validation
+name: PR Approval Validation & Auto-Merge
 
 on:
   pull_request_target:
@@ -35,5 +35,9 @@ jobs:
 
       - name: Success
         if: steps.approvals.outputs.count != '0'
+        run: echo "✅ PR approved. Proceeding to auto-merge."
+
+      - name: Auto-merge PR
+        if: steps.approvals.outputs.count != '0'
         run: |
-          echo "✅ PR is approved. Job successful!"
+          gh pr merge ${{ github.event.pull_request.number }} --merge --admin
